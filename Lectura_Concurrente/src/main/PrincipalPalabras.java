@@ -29,7 +29,8 @@ public class PrincipalPalabras {
 			}
 		}
 		for (int i=0; i<hps.length; i++) {
-			System.out.println("El hilo " + (i+1) + " ha encontrado " + hps[i].ocurrencias + " ocurrencias de la palabra " + palabras[i]);
+			System.out.println("El hilo " + (i+1) + " ha encontrado " + hps[i].ocurrencias +
+					" ocurrencias de la palabra " + palabras[i]);
 		}
 	}
 

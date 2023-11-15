@@ -42,8 +42,6 @@ public class HiloPalabra extends Thread{
 					}
 				}
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

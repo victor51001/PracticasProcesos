@@ -15,7 +15,7 @@ public class HiloVocal extends Thread{
 	//constructor
 	public HiloVocal(char vowel,File fichero) {
 		vocal = vowel;
-		f = fichero;
+		f = fichero;																	
 		ocurrencias = 0;
 	}
 	//metodo run

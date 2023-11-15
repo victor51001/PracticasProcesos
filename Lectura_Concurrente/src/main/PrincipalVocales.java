@@ -23,7 +23,8 @@ public class PrincipalVocales {
 			}
 		}
 		for (int i=0; i<hvs.length; i++) {
-			System.out.println("El hilo " + (i+1) + " ha encontrado " + hvs[i].ocurrencias + " ocurrencias de la " + vocales[i]);
+			System.out.println("El hilo " + (i+1) + " ha encontrado " + 
+			hvs[i].ocurrencias + " ocurrencias de la " + vocales[i]);
 		}
 	}
 }
