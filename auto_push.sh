@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /home/alumnotd/Escritorio/AlumnoSSD/Procesos/RepoPracticas
+
 # Obtener la fecha y hora actual
 current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
 
