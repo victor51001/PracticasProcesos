@@ -17,14 +17,19 @@ public class MainCasino {
 
 		Jugador[] jugadores = new Jugador[10];
 		Lanzador coupier = new Lanzador(ruleta,jugadores);
-		Controlador control = new Controlador(jugadores);
 		
 		for (int i=0; i<jugadores.length; i++) {
 			jugadores[i]= new Jugador(ruleta, banca);
 			jugadores[i].start();
 		}
-		coupier.start();	
-		control.start();
+		coupier.start();
+		for (int i=0; i<jugadores.length; i++) {
+			synchronized(jugadores) {
+				while (!coupier.getState().equals(Thread.State.WAITING)) {
+					jugadores.notify();
+				}
+			}
+		}
 		
 		for (int i= 0; i<jugadores.length; i++) {
 			try {								
