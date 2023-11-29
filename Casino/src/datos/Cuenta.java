@@ -15,7 +15,12 @@ public class Cuenta {
 		saldo+=cantidad;
 	}
 	public synchronized void retirar(int cantidad) {
-		saldo-=cantidad;
+		if (cantidad<=saldo) {
+			saldo-=cantidad;
+		} else {			
+			System.out.println("Bancarrota");
+			System.exit(0);
+		}
 	}
 
 }

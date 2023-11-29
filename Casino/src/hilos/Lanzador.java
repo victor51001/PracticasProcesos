@@ -4,31 +4,46 @@ import datos.Ruleta;
 
 public class Lanzador extends Thread {
 	private Ruleta bola;
-	private Jugador[] jugador;
+	private Thread[] jugadores;
 
-	public Lanzador(Ruleta bola,Jugador[] jugadores) {		
+	public Lanzador(Ruleta bola, Thread[] apostadores) {
 		this.bola = bola;
-		jugador = jugadores;
+		jugadores = apostadores;
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		for (int i=0;i<10;i++)
-		{
-			synchronized(bola){
+		while (true) {
+			synchronized (bola) {
 				bola.lanzar();
-				System.out.println("numero:"+bola.getNumero());
-					synchronized(jugador) {
-						try {
-							jugador.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+				System.out.println("numero:" + bola.getNumero());
+				bola.notifyAll();
+			}
+			boolean ok = true;
+			boolean ko = false;
+			while (ok) {
+				int contador = 0;
+				for (Thread jugador : jugadores) {
+					if (jugador.getState().equals(Thread.State.RUNNABLE) || 
+							jugador.getState().equals(Thread.State.BLOCKED)) {
+						ko = false;
+					}
+					if (jugador.getState().equals(Thread.State.TERMINATED)) {
+						contador++;
 					}
 				}
-				bola.notifyAll();
-			}			
+				if (contador==jugadores.length) {
+					System.out.println("Todos los jugadores han perdido");
+					System.exit(0);
+				}
+				if (ko) {
+					ok = false;
+				} else {
+					ok = true;
+				}
+				ko = true;
+			}
 		}
 	}
+}

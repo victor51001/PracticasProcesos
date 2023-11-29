@@ -12,24 +12,42 @@ public class MainCasino {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Cuenta banca=new Cuenta(10000);
+		Cuenta banca=new Cuenta(50000);
 		Ruleta ruleta=new Ruleta();
 
-		Jugador[] jugadores = new Jugador[10];
-		Lanzador coupier = new Lanzador(ruleta,jugadores);
+		JugadorBasico[] jugadoresBasicos = new JugadorBasico[4];
+		int numBasicos = jugadoresBasicos.length;
+		JugadorParImpar[] jugadoresParImpar = new JugadorParImpar[4];
+		int numParImpar = jugadoresParImpar.length;
+		JugadorMartingala[] jugadoresMartingala = new JugadorMartingala[4];
+		int numMartingala = jugadoresMartingala.length;
 		
-		for (int i=0; i<jugadores.length; i++) {
-			jugadores[i]= new Jugador(ruleta, banca);
-			jugadores[i].start();
+		Thread[] jugadores = new Thread[numBasicos+numParImpar+numMartingala];
+		
+		for (int i=0; i<jugadoresBasicos.length; i++) {
+			jugadoresBasicos[i] = new JugadorBasico(ruleta, banca);
+			jugadoresBasicos[i].start();
 		}
+		for (int i=0; i<jugadoresParImpar.length; i++) {
+			jugadoresParImpar[i] = new JugadorParImpar(ruleta,banca);
+			jugadoresParImpar[i].start();
+		}
+		for (int i=0; i<jugadoresMartingala.length; i++) {
+			jugadoresMartingala[i] = new JugadorMartingala(ruleta,banca);
+			jugadoresMartingala[i].start();
+		}		
+		for (int i=0; i<numBasicos; i++) {
+			jugadores[i] = jugadoresBasicos[i];
+		}
+		for (int i=0; i<numParImpar; i++) {
+			jugadores[i+numBasicos] = jugadoresParImpar[i];
+		}
+		for (int i=0; i<numMartingala; i++) {
+			jugadores[i+numBasicos+numParImpar] = jugadoresMartingala[i];
+		}		
+		
+		Lanzador coupier = new Lanzador(ruleta,jugadores);
 		coupier.start();
-		for (int i=0; i<jugadores.length; i++) {
-			synchronized(jugadores) {
-				while (!coupier.getState().equals(Thread.State.WAITING)) {
-					jugadores.notify();
-				}
-			}
-		}
 		
 		for (int i= 0; i<jugadores.length; i++) {
 			try {								
@@ -45,9 +63,6 @@ public class MainCasino {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("hola");
-		
 	}	
 
 }
