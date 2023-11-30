@@ -14,9 +14,12 @@ public class Lanzador extends Thread {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		int ronda = 1;
 		while (true) {
 			synchronized (bola) {
 				bola.lanzar();
+				System.out.println("Ronda: " + ronda);
+				ronda++;
 				System.out.println("numero:" + bola.getNumero());
 				bola.notifyAll();
 			}
