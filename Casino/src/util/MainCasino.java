@@ -1,5 +1,4 @@
 package util;
-import java.util.Iterator;
 
 import datos.Cuenta;
 
@@ -53,14 +52,12 @@ public class MainCasino {
 			try {								
 				jugadores[i].join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}	
 		try {
 			coupier.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}	

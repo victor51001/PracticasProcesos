@@ -28,7 +28,8 @@ public class JugadorBasico extends Thread {
 			synchronized (bola) {
 				try {
 					bola.wait();
-					System.out.println(this.getName() + " apuesta al " + numero + " la cantidad de " + apuesta + " y le queda " + monedero);
+					System.out.println(this.getName() + " apuesta al " + numero 
+							+ " la cantidad de " + apuesta + " y le queda " + monedero);
 					if (numero==bola.getNumero()) {
 						banca.retirar(apuesta*multiplicador);
 						monedero += apuesta*multiplicador;

@@ -5,6 +5,7 @@ import datos.Ruleta;
 public class Lanzador extends Thread {
 	private Ruleta bola;
 	private Thread[] jugadores;
+	private int ronda = 1;
 
 	public Lanzador(Ruleta bola, Thread[] apostadores) {
 		this.bola = bola;
@@ -14,7 +15,6 @@ public class Lanzador extends Thread {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		int ronda = 1;
 		while (true) {
 			synchronized (bola) {
 				bola.lanzar();
@@ -26,11 +26,12 @@ public class Lanzador extends Thread {
 			boolean ok = true;
 			boolean ko = false;
 			while (ok) {
+				ok=false;
 				int contador = 0;
 				for (Thread jugador : jugadores) {
 					if (jugador.getState().equals(Thread.State.RUNNABLE) || 
 							jugador.getState().equals(Thread.State.BLOCKED)) {
-						ko = false;
+						ok = true;
 					}
 					if (jugador.getState().equals(Thread.State.TERMINATED)) {
 						contador++;
@@ -40,12 +41,6 @@ public class Lanzador extends Thread {
 					System.out.println("Todos los jugadores han perdido");
 					System.exit(0);
 				}
-				if (ko) {
-					ok = false;
-				} else {
-					ok = true;
-				}
-				ko = true;
 			}
 		}
 	}

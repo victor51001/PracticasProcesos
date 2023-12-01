@@ -8,9 +8,16 @@ public class Consumidor extends Thread {
 		this.n = n;
 	}
 	public void run() {
-		int valor=0;
 		for (int i=0;i<5;i++) {
-			while((valor = cola.get())==-1) { }
+			int valor;
+			while((valor = cola.get())==-1) { 
+				try {
+					Thread.sleep((long) (Math.random()*3000));
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			System.out.println("consumidor "+n+" consume "+valor);
 		}
 	}
