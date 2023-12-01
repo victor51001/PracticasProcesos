@@ -9,19 +9,8 @@ public class Productor extends Thread{
 	}
 	public void run() {
 		for (int i=0;i<5;i++) {
-			cola.put(i);
-			System.out.println(i+" productor "+n+" produce "+i);
-			
-			try {
-				sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-			
-	}
-
-	
+			while(cola.put(i)) { }
+			System.out.println(" productor "+n+" produce "+i);
+		}			
+	}	
 }

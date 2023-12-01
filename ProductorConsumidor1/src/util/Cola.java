@@ -1,21 +1,34 @@
 package util;
 
+import java.util.Arrays;
+
 public class Cola {
-	private int numero;
-	private boolean disponible=false;
-	
-	//probar con y sin synchronized
+	private int[] numeros = new int[5];
+
 	public synchronized int get() {
-		if (disponible)
-		{
-			disponible=false;
+		if (numeros[0] > -1) {
+			int numero = numeros[0];
+			numeros[0] = -1;
+			Arrays.sort(numeros);
+			int n = numeros.length;
+			for (int i = 0; i < n / 2; i++) {
+				int temp = numeros[i];
+				numeros[i] = numeros[n - i - 1];
+				numeros[n - i - 1] = temp;
+			}
 			return numero;
-		}
-		else
+		} else {
 			return -1;
+		}
 	}
-	public synchronized void put(int valor) {
-		numero=valor;
-		disponible=true;
+
+	public synchronized boolean put(int valor) {
+		for (int n : numeros) {
+			if (n==-1) {
+				n=valor;
+				return false;
+			}
+		}
+		return true;
 	}
 }
