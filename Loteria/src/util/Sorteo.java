@@ -1,18 +1,15 @@
-package datos;
+package util;
 
-public class Ruleta {
-	
+public class Sorteo {
 	private int numero=0;
 	
-	public Ruleta() {
+	public Sorteo() {
 		
 	}
 	public int getNumero() {
 		return numero;
 	}
 	public void lanzar() {
-		numero= (int)(Math.random()*48+1); 
+		numero = (int) ((Math.random() * 48) + 1);
 	}
-	
-
 }
