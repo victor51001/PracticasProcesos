@@ -6,12 +6,12 @@ import datos.Bombo;
 
 public class Lanzador extends Thread{
 	private Bombo b;
-	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+	private ArrayList<Jugador> jugadores;
 	private int sorteos;
 
 	public Lanzador(Bombo bombo, ArrayList<Jugador> apostadores, int rondas) {
 		this.b = bombo;
-		jugadores = apostadores;
+		this.jugadores = apostadores;
 		this.sorteos = rondas;
 	}
 
@@ -22,8 +22,7 @@ public class Lanzador extends Thread{
 			boolean ko = false;
 			while (ok) {
 				for (Jugador jugador : jugadores) {
-					if (jugador.getState().equals(Thread.State.RUNNABLE) || 
-							jugador.getState().equals(Thread.State.BLOCKED)) {
+					if (!jugador.getState().equals(Thread.State.WAITING)) {
 						ko = false;
 					}
 				}
@@ -42,7 +41,7 @@ public class Lanzador extends Thread{
 				}
 				b.lanzar();
 				System.out.println("\nRonda " + (i+1));
-				System.out.println("Combinacion ganadora: " + b.getCombinacion());
+				System.out.println("Combinacion ganadora: " + b.getCombinacion() + "\n");
 				b.notifyAll();
 			}
 		}

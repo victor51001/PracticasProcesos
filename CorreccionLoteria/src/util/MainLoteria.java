@@ -15,22 +15,19 @@ public class MainLoteria {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("Introduce el numero de sortenos: ");
+		System.out.println("Introduce el numero de sorteos: ");
 		int nSorteos = sc.nextInt();
 		sc.nextLine();
 		System.out.println("Introduce el numero de jugadores");
 		int nJugadores = sc.nextInt();
 		sc.nextLine();
-		int vueltas;
 
 		Cuenta banca = new Cuenta(1000 + 10 * nJugadores);
 		Bombo bombo = new Bombo();
 		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-		Random r = new Random();
 
 		for (int i = 0; i < nJugadores; i++) {
-			vueltas = r.nextInt(0, 10);
-			jugadores.add(new Jugador(bombo, banca, 100, vueltas));
+			jugadores.add(new Jugador(bombo, banca, 100, nSorteos));
 			jugadores.get(i).start();
 		}
 		

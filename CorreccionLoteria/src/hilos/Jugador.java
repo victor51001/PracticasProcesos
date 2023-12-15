@@ -44,21 +44,26 @@ public class Jugador extends Thread {
 				}
 				ganadora = b.getCombinacion();
 				aciertos = 0;
-				for (int n : apuesta)
-					if (ganadora.contains(n))
+				for (int n : ganadora)
+					if (apuesta.contains(n))
 						aciertos++;
 
 				switch (aciertos) {
+				case 0:
+					System.out.println(this.getName() + " acierta " + aciertos + "\nCon la combinacion " + apuesta + "\n");
+					break;
 				case 1:
 					System.out.println(this.getName() + " acierta " + aciertos + "\nCon la combinacion " + apuesta);
 					c.retirar(5);
 					monedero += 5;
 					break;
 				case 2:
+					System.out.println(this.getName() + " acierta " + aciertos + "\nCon la combinacion " + apuesta);
 					c.retirar(25);
 					monedero += 25;
 					break;
 				case 3:
+					System.out.println(this.getName() + " acierta " + aciertos + "\nCon la combinacion " + apuesta);
 					c.retirar(1000);
 					monedero += 1000;
 					break;
