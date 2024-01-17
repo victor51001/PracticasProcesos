@@ -17,17 +17,20 @@ public class Cliente {
 		DataOutputStream dos = null;
 		boolean acertado = false;
 		try {
-			sock = new Socket("localhost",6001);
+			sock = new Socket("localhost", 6001);
 			System.out.println("Conexion establecida");
 			dis = new DataInputStream(sock.getInputStream());
 			dos = new DataOutputStream(sock.getOutputStream());
-			while(!acertado) {
-				System.out.println("Introduce un numero: ");
-				int intento = sc.nextInt();
-				dos.writeInt(intento);
-				dos.flush();
-				int numero = dis.readInt();
-				switch (numero) {
+			for (int i = 0; i < 10; i++) {
+				System.out.println("Partida " + (i+1) + ":");
+				acertado = false;
+				while (!acertado) {
+					System.out.println("Introduce un numero: ");
+					int intento = sc.nextInt();
+					dos.writeInt(intento);
+					dos.flush();
+					int numero = dis.readInt();
+					switch (numero) {
 					case -1:
 						System.out.println("El numero es mayor");
 						break;
@@ -38,6 +41,7 @@ public class Cliente {
 						System.out.println("Has acertado");
 						acertado = true;
 						break;
+					}
 				}
 			}
 		} catch (UnknownHostException e) {

@@ -3,50 +3,55 @@ package Hilo;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Random;
 
-public class Hilo extends Thread{
+public class Hilo extends Thread {
 	private Socket cliente;
 	private int numero;
-	
+	private DataInputStream entrada;
+	private DataOutputStream salida;
+
 	public Hilo(Socket client) {
 		Random r = new Random();
 		cliente = client;
-		numero = r.nextInt(0,101);
+		numero = r.nextInt(0, 101);
+		DataInputStream dis = null;
+		DataOutputStream dos = null;
+		try {
+			InputStream is = cliente.getInputStream();
+			OutputStream os = cliente.getOutputStream();
+			entrada = new DataInputStream(is);
+			salida = new DataOutputStream(os);
+		} catch (IOException e) {
+			// TODO: handle exception
+		}
 	}
 
 	@Override
 	public void run() {
-		DataInputStream dis = null;
-		DataOutputStream dos = null;
 		try {
-			dis = new DataInputStream(cliente.getInputStream());
-			dos = new DataOutputStream(cliente.getOutputStream());
 			int intento;
-			intento = dis.readInt();
+			for (int i=0; i<10; i++) {
+			while ((intento = entrada.readInt()) != numero) {
+				System.out.println("El numero es " + numero);
+				System.out.println("El intento es " + intento);
+				if (intento < numero) {
+					salida.writeInt(-1);
+				} else {
+					salida.writeInt(1);
+				}
+				salida.flush();
+			}
 			System.out.println("El numero es " + numero);
 			System.out.println("El intento es " + intento);
-			dos.flush();
-			while(intento!=numero) {
-				if (intento<numero) {
-					dos.writeInt(-1);
-				} else {
-					dos.writeInt(1);
-				}
+			salida.writeInt(0);
 			}
-			dos.writeInt(0);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try {
-				dis.close();
-				dos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
-	}	
+	}
 }
